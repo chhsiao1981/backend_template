@@ -10,6 +10,9 @@ git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_
 * create a module: ./scripts/dev_module.sh
 * create a class: ./scripts/dev_class.sh
 
+Django
+------
+git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; ./scripts/init_starter.sh; ./scripts/init_django.sh
 
 Introduction
 -----
