@@ -37,7 +37,7 @@ def profile(request, *args, **kwargs):
     user = request.user
     cfg.logger.warning('user: %s', user)
 
-    return HttpResponse(util.json_dumps({"username": user.username}), content_type='application/json')
+    return HttpResponse(util.json_dumps({"username": user.username, "first_name": user.first_name, "last_name": user.last_name}), content_type='application/json')
 
 
 @csrf_exempt
@@ -60,6 +60,6 @@ def complete(request, backend, *args, **kwargs):
 
     redirect_url = request.REQUEST.get('next', getattr(settings, 'LOGIN_REDIRECT_URL', '/'))
 
-    data = {'id': str(user.id), 'username': user.username, "url": redirect_url}
+    data = {'id': str(user.id), 'username': user.username, "first_name": user.first_name, "last_name": user.last_name, "url": redirect_url}
 
     return HttpResponse(util.json_dumps(data), content_type='application/json')
