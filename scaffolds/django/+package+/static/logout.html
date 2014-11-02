@@ -17,16 +17,6 @@
   <!-- END Pre-requisites -->
 </head>
 <body>
-  <div id="signinButton">
-    <span class="g-signin"
-          data-scope="https://www.googleapis.com/auth/plus.login"
-          data-clientid=""
-          data-redirecturi="postmessage"
-          data-accesstype="offline"
-          data-cookiepolicy="single_host_origin"
-          data-callback="signInCallback">
-    </span>
-  </div>
   <button id="homeButton">Home</button>
   <button id="signoutButton">Signout</button>
   <div id="result"></div>
@@ -46,28 +36,32 @@
 
     function signOutCallback(event) {
       var access_token_obj = gapi.auth.getToken()
-      var access_token = access_token_obj.access_token
-      var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
+      console.log('access_token_obj:', access_token_obj)
 
-      $.ajax({
-        type: 'GET',
-        url: revokeUrl,
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(nullResponse) {
-          // Do something now that user is disconnected
-          // The response is always undefined.
-          console.log('revoke token successfully')
-        },
-        error: function(e) {
-          // Handle the error
-          console.log('unable to revoke token: e:', e);
-          // You could point users to manually disconnect if unsuccessful
-          // https://plus.google.com/apps
-        }
-      });
+      if(access_token_obj) {
+        var access_token = access_token_obj.access_token
+        console.log('access_token:', access_token)
+        var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
 
+        $.ajax({
+          type: 'GET',
+          url: revokeUrl,
+          async: false,
+          contentType: "application/json",
+          dataType: 'jsonp',
+          success: function(nullResponse) {
+            // Do something now that user is disconnected
+            // The response is always undefined.
+            console.log('revoke token successfully')
+          },
+          error: function(e) {
+            // Handle the error
+            console.log('unable to revoke token: e:', e);
+            // You could point users to manually disconnect if unsuccessful
+            // https://plus.google.com/apps
+          }
+        });
+      }
       $.ajax({
         beforeSend: function(xhr, settings) {
           var csrftoken = getCookie('csrftoken');
@@ -98,16 +92,17 @@
           url: '/auth/complete/google-plus/',
           contentType: 'application/x-www-form-urlencoded; charset=utf-8',
           success: function(result) {
+            // Handle or verify the server response if necessary.
+
+            // Prints the list of people that the user has allowed the app to know
+            // to the console.
             console.log('after post to server:', result);
-
-            //revoke the token because it's only for login purpose for now.
-            var access_token_obj = gapi.auth.getToken()
-            var access_token = access_token_obj.access_token
-
-            var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
-
-            //redirect
             window.location.href = result.url
+            //if (result['profile'] && result['people']){
+            //  $('#results').html('Hello ' + result['profile']['displayName'] + '. You successfully made a server side call to people.get and people.list');
+            //} else {
+            //  $('#results').html('Failed to make a server-side call. Check your configuration and console.');
+            //}
           },
           processData: true,
           data: {"code": authResult['code'], "access_token": authResult["access_token"]},
@@ -117,7 +112,7 @@
         // Possible error codes:
         //   "access_denied" - User denied access to your app
         //   "immediate_failed" - Could not automatially log in the user
-        console.log('There was an error: ', authResult);
+        console.log('There was an error: ' + authResult);
       }
     }
 

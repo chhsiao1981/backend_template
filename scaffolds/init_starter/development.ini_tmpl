@@ -19,8 +19,9 @@ django_secret_key = DEFAULT_DJANGO_SECRET_KEY
 secret_key = DEFAULT_DJANGO_SECRET_KEY
 social_auth_google_plus_key = 
 social_auth_google_plus_secret = 
-login_redirect_url = /auth/profile/
+login_redirect_url = /auth/profile
 login_url = /login.html
+home_url = /auth/profile
 
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.

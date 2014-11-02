@@ -22,7 +22,7 @@ from {{package}} import util
 @require_POST
 @csrf_protect
 def logout(request, *args, **kwargs):
-    auth_logout = auth_logout(request)
+    auth_logout(request)
 
     redirect_url = getattr(settings, 'HOME_URL', '/')
 
@@ -57,6 +57,9 @@ def complete(request, backend, *args, **kwargs):
         raise HttpResponseBadRequest('Wrong backend type')
     user = request.backend.do_auth(token, ajax=True)
     login(request, user)
+
+    redirect_url = request.REQUEST.get('next', getattr(settings, 'LOGIN_REDIRECT_URL', '/'))
+
     data = {'id': str(user.id), 'username': user.username, "url": redirect_url}
 
     return HttpResponse(util.json_dumps(data), content_type='application/json')
