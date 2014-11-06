@@ -1,53 +1,50 @@
+<!--
+
+/*
+ *
+ * Copyright 2013 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+-->
 <!DOCTYPE html>
 <html>
 <head>
-  <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-  <!-- BEGIN Pre-requisites -->
+  <title>Google+ Sign-in button demo</title>
+  <style type="text/css">
+  html, body { margin: 0; padding:0;}
+  #signin-button {
+   padding: 5px;
+  }
+
+  #oauth2-results pre { margin: 0; padding:0;}
+  .hide { display: none;}
+  .show { display: block;}
+  </style>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
   <script type="text/javascript">
-    (function () {
-      var po = document.createElement('script');
-      po.type = 'text/javascript';
-      po.async = true;
-      po.src = 'https://plus.google.com/js/client:plusone.js?onload=start';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(po, s);
-    })();
-  </script>
-  <!-- END Pre-requisites -->
-</head>
-<body>
-  <div id="signinButton">
-    <span class="g-signin"
-          data-scope="https://www.googleapis.com/auth/plus.login"
-          data-clientid=""
-          data-redirecturi="postmessage"
-          data-accesstype="offline"
-          data-cookiepolicy="single_host_origin"
-          data-callback="signInCallback">
-    </span>
-  </div>
-  <button id="homeButton">Home</button>
-  <button id="signoutButton">Signout</button>
-  <div id="result"></div>
 
-  <!-- Last part of BODY element in file index.html -->
-  <script type="text/javascript">
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
+  var signOutCallback = function(event) {
+    var access_token_obj = gapi.auth.getToken()
+    console.log('access_token_obj:', access_token_obj)
 
-    function getCookie(name) {
-      var value = "; " + document.cookie;
-      var parts = value.split("; " + name + "=");
-      if (parts.length == 2) return parts.pop().split(";").shift();
-    }
-
-    function signOutCallback(event) {
-      var access_token_obj = gapi.auth.getToken()
+    if(access_token_obj) {
       var access_token = access_token_obj.access_token
+      console.log('access_token:', access_token)
       var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
+
+      console.log('to revoken: revokeUrl:', revokeUrl)
 
       $.ajax({
         type: 'GET',
@@ -67,64 +64,70 @@
           // https://plus.google.com/apps
         }
       });
-
-      $.ajax({
-        beforeSend: function(xhr, settings) {
-          var csrftoken = getCookie('csrftoken');
-          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-          }
-        },
-        type: 'POST',
-        url: '/auth/logout/',
-        success: function(result) {
-          console.log('after post to server:', result);
-          window.location.href = result.url
-        },
-        processData: true,
-        data: {}
-      });
     }
+  };
 
-    function signInCallback(authResult) {
-      if (authResult['code']) {
-        console.log('authResult:', authResult);
-        // Hide the sign-in button now that the user is authorized, for example:
-        $('#signinButton').attr('style', 'display: none');
-
-        // Send the code to the server
-        $.ajax({
-          type: 'POST',
-          url: '/auth/complete/google-plus/',
-          contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-          success: function(result) {
-            console.log('after post to server:', result);
-
-            //revoke the token because it's only for login purpose for now.
-            var access_token_obj = gapi.auth.getToken()
-            var access_token = access_token_obj.access_token
-
-            var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
-
-            //redirect
-            window.location.href = result.url
-          },
-          processData: true,
-          data: {"code": authResult['code'], "access_token": authResult["access_token"]},
-        });
-      } else if (authResult['error']) {
-        // There was an error.
-        // Possible error codes:
-        //   "access_denied" - User denied access to your app
-        //   "immediate_failed" - Could not automatially log in the user
-        console.log('There was an error: ', authResult);
+  var loginFinished = function(authResult) {
+    if (authResult) {
+      var el = document.getElementById('oauth2-results');
+      var label = '';
+      toggleDiv('oauth2-results');
+      if (authResult['status']['signed_in']) {
+        label = 'User granted access:';
+        gapi.auth.setToken(authResult);
+      } else {
+        label = 'Access denied: ' + authResult['error'];
       }
+      el.innerHTML =
+          label + '<pre class="prettyprint"><code>' +
+          // JSON.stringify doesn't work in IE8.
+          '{<br />' +
+          '  "id_token" : "' + authResult['id_token'] +'",<br />' +
+          '  "access_token" : "' + authResult['access_token'] + '",<br />' +
+          '  "state" : "' + authResult['state'] + '",<br />' +
+          '  "expires_in" : "' + authResult['expires_in'] + '",<br />' +
+          '  "error" : "' + authResult['error'] + '",<br />' +
+          '  "error_description" : "' + authResult['error_description'] + '",<br />' +
+          '  "authUser" : "' + authResult['authuser'] + '",<br />' +
+          '  "status" : {"' + '<br />' +
+          '    "google_logged_in" : "' + authResult['status']['google_logged_in'] + '",<br />' +
+          '    "method" : "' + authResult['status']['method'] + '",<br />' +
+          '    "signed_in" : "' + authResult['status']['signed_in'] + '"<br />' +
+          '  }<br />' +
+          '}</code></pre>';
+      toggleDiv('signin-button');
+    } else {
+      document.getElementById('oauth2-results').innerHTML =
+          'Empty authResult';
     }
+  };
 
-    $(document).ready(function() {
-        $('#signoutButton').on('click', signOutCallback)
-      }
-    )
+  function toggleDiv(id) {
+    var div = document.getElementById(id);
+    if (div.getAttribute('class') == 'hide') {
+      div.setAttribute('class', 'show');
+    } else {
+      div.setAttribute('class', 'hide');
+    }
+  }
   </script>
+  <script src="https://plus.google.com/js/client:platform.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="signin-button" class="show">
+   <span class="g-signin"
+    data-scope="https://www.googleapis.com/auth/plus.login"
+    data-clientid=""
+    data-redirecturi="postmessage"
+    data-accesstype="offline"
+    data-cookiepolicy="single_host_origin"
+    data-callback="loginFinished"
+    >
+  </span>
+  </div>
+  <div id="oauth2-results" class="hide"></div>
+  <button id="signoutButton" onclick="signOutCallback()">Signout</button>
+  <div style="font: 12px sans-serif, Arial; margin-left: 0.5em; margin-top: 0.5em"><a href="javascript:document.location.reload();">Reload the example</a> or <a
+    href="/+/demos/signin_demo_basic" target="_blank">open in a new window</a></div>
 </body>
 </html>
