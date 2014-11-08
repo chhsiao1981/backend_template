@@ -55,7 +55,10 @@
         success: function(nullResponse) {
           // Do something now that user is disconnected
           // The response is always undefined.
-          console.log('revoke token successfully')
+
+          the_url = window.location.href
+          console.log('revoke token successfully to reload: the_url:', the_url)
+          window.location.href = the_url
         },
         error: function(e) {
           // Handle the error
@@ -75,6 +78,19 @@
       if (authResult['status']['signed_in']) {
         label = 'User granted access:';
         gapi.auth.setToken(authResult);
+
+
+        $.ajax({
+          type: 'POST',
+          url: '/auth/complete/google-plus/',
+          contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+          success: function(result) {
+            console.log('after post to server:', result);
+          },
+          processData: true,
+          data: {"code": authResult['code'], "access_token": authResult["access_token"]},
+        });
+
       } else {
         label = 'Access denied: ' + authResult['error'];
       }

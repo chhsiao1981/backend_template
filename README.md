@@ -14,7 +14,7 @@ git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_
 
 Django
 ------
-1. git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; ./scripts/init_starter.sh; ./scripts/init_django.sh
+git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; ./scripts/init_starter.sh; ./scripts/init_django.sh
 
 
 Introduction
@@ -25,8 +25,6 @@ This template intends to efficiently develop with the following libraries:
 * type / str / unicode
 * timestamp (by millisecond) / sec_timestamp / datetime / arrow
 * sniffer / nosetests (autotest)
-* bottlepy (web server)
-* beaker (web session)
 * pymongo (db)
 * grequests (http post/get)
 * ujson (json)
