@@ -73,10 +73,11 @@ def _main():
     error_log = args.error_log or 'log.%s.err.txt' % (args.port)
     access_log = args.access_log or 'log.%s.access.txt' % (args.port)
     the_reload = opt.get('reload', False)
+    ini_filename = opt.get('ini', '')
 
-    cfg.init({'ini_filename': opt.get('ini', ''), 'bind': '0.0.0.0:%s' % (port), 'worker_class': 'gevent', 'worker_connections': 10, 'reload': the_reload, 'errorlog': error_log, 'accesslog': access_log})
+    cfg.init({'ini_filename': ini_filename, 'bind': '0.0.0.0:%s' % (port), 'worker_class': 'gevent', 'worker_connections': 10, 'reload': the_reload, 'errorlog': error_log, 'accesslog': access_log})
 
-    _init_ini_file(args.ini)
+    _init_ini_file(ini_filename)
 
     (mongo_host, mongo_port) = util.deserialize_host_port(cfg.config.get('mongo_server_hostname', 'localhost'), default_port=27017)
 
