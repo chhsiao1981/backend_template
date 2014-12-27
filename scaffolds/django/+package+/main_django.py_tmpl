@@ -70,8 +70,8 @@ def _main():
     opt = uwsgi.opt
 
     port = opt.get('port', '')
-    error_log = args.error_log or 'log.%s.err.txt' % (args.port)
-    access_log = args.access_log or 'log.%s.access.txt' % (args.port)
+    error_log = opt.get('error_log', '') or 'log.%s.err.txt' % (port)
+    access_log = opt.get('access_log', '') or 'log.%s.access.txt' % (port)
     the_reload = opt.get('reload', False)
     ini_filename = opt.get('ini', '')
 
