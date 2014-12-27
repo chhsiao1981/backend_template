@@ -4,7 +4,10 @@ backend_template
 
 Usage
 -----
-project name/directory is recommended to fit python style (using underscore as project name/directory: good: backend_temp, bad: backend-temp, backendTemp, BackendTemp)
+project name/directory is recommended to fit python style (using underscore as project name/directory):
+
+* good: backend_temp
+* bad: backend-temp, backendTemp, BackendTemp
 
 git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh
 
