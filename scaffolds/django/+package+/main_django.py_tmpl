@@ -80,7 +80,7 @@ def _main():
 
     (mongo_host, mongo_port) = util.deserialize_host_port(cfg.config.get('mongo_server_hostname', 'localhost'), default_port=27017)
 
-    mongoengine.connect('{{package}}', host=mongo_host, port=mongo_port)
+    mongoengine.connect('{{package}}', host=mongo_host, port=mongo_port, use_greenlets=True)
 
     wsgi.init_django_settings_module('{{package}}.settings')
     wsgi.init_application()
