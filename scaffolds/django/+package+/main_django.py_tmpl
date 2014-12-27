@@ -5,8 +5,6 @@ from {{package}}.constants import *
 
 import gevent.monkey; gevent.monkey.patch_all()
 
-import multiprocessing
-
 import gunicorn.app.base
 from gunicorn.six import iteritems
 import mongoengine
@@ -14,15 +12,15 @@ import re
 
 import argparse
 import sys
+import uwsgi
+import logging
 
 from {{package}} import cfg
 from {{package}} import util
 from {{package}} import wsgi
 from {{package}} import settings
 
-
-def _number_of_workers():
-    return multiprocessing.cpu_count()
+application = None
 
 
 class App(gunicorn.app.base.BaseApplication):
@@ -67,23 +65,26 @@ def _init_ini_file(ini_filename):
 
 
 def _main():
-    (error_code, args) = parse_args()
+    global application
 
+    opt = uwsgi.opt
+
+    port = opt.get('port', '')
     error_log = args.error_log or 'log.%s.err.txt' % (args.port)
     access_log = args.access_log or 'log.%s.access.txt' % (args.port)
+    the_reload = opt.get('reload', False)
 
-    cfg.init({'ini_filename': args.ini, 'bind': '0.0.0.0:%s' % (args.port), 'worker_class': 'gevent', 'reload': args.reload, 'errorlog': error_log, 'accesslog': access_log})
+    cfg.init({'ini_filename': opt.get('ini', ''), 'bind': '0.0.0.0:%s' % (port), 'worker_class': 'gevent', 'worker_connections': 10, 'reload': the_reload, 'errorlog': error_log, 'accesslog': access_log})
 
     _init_ini_file(args.ini)
 
     (mongo_host, mongo_port) = util.deserialize_host_port(cfg.config.get('mongo_server_hostname', 'localhost'), default_port=27017)
+
     mongoengine.connect('{{package}}', host=mongo_host, port=mongo_port)
 
     wsgi.init_django_settings_module('{{package}}.settings')
     wsgi.init_application()
 
-    App(cfg.config).run()
+    application = wsgi.application
 
-
-if __name__ == '__main__':
-    _main()
+_main()
