@@ -80,9 +80,9 @@ def _main():
 
     session_opts = {
         'session.cookie_expires': True,
-        'session.encrypt_key': cfg.config.get('session_encrypt_key', '')
+        'session.encrypt_key': cfg.config.get('session_encrypt_key', ''),
         'session.httponly': True,
-        'session.timeout': cfg.config.get('session_expire_timestamp', SESSION_EXPIRE_TIMESTAMP)
+        'session.timeout': cfg.config.get('session_expire_timestamp', SESSION_EXPIRE_TIMESTAMP),
         'session.type': 'cookie',
         'session.validate_key': True,
     }
