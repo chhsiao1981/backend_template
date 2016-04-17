@@ -29,6 +29,9 @@ class MyTemplate(PyramidTemplate):
         sub_pkg_dir_list = [] if not sub_pkg_dir else sub_pkg_dir.split(os.path.sep)
         test_dir_list = ['test_' + each_pkg for each_pkg in sub_pkg_dir_list]
         test_dir = os.path.sep.join(test_dir_list)
+        pkg_name = vars['package']
+        if sub_pkg_name:
+            pkg_name += '.' + sub_pkg_name
 
         vars['module_name'] = module_name
         vars['class_name'] = class_name
