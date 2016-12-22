@@ -39,6 +39,7 @@ class MyTemplate(PyramidTemplate):
         vars['sub_pkg_dir'] = sub_pkg_dir
         vars['test_name'] = test_name
         vars['test_dir'] = test_dir
+        vars['pkg_name'] = pkg_name
 
 
 class ModuleProjectTemplate(MyTemplate):
