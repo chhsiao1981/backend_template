@@ -1,6 +1,7 @@
 # API
 from pyramid.scaffolds import PyramidTemplate
 import os
+import logging
 
 
 def _underscore_to_upper_camel_case(the_str):
@@ -11,6 +12,7 @@ class MyTemplate(PyramidTemplate):
     def pre(self, command, output_dir, vars):
         the_args = command.args
 
+        logging.warning('command: %s output_dir: %s vars: %s args: %s', command, output_dir, vars, command.args)
         module_name = the_args[1] if len(the_args) >= 2 else ''
         self._setup_module(vars, module_name)
 
