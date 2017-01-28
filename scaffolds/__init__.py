@@ -59,11 +59,11 @@ class DjangoProjectTemplate(MyTemplate):
 
 class DevStarterProjectTemplate(MyTemplate):
     _template_dir = 'dev_starter'
-    summary = 'starting dev project'
+    summary = 'dev starting, including main/cfg/util/constants'
 
 
-class InitStarterProjectTemplate(MyTemplate):
-    _template_dir = 'init_starter'
+class InitDevProjectTemplate(MyTemplate):
+    _template_dir = 'init_dev'
     summary = 'starting project'
 
 

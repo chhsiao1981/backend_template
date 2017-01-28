@@ -18,6 +18,7 @@ from beaker.middleware import SessionMiddleware
 
 from {{package}} import cfg
 from {{package}} import util
+from {{package}}.util import Error
 
 app = Bottle()
 
@@ -32,7 +33,7 @@ def _process_params():
 
 
 def _process_json_request():
-    return util.json_loads(_process_body_request())
+    return util.json_loads_ne(_process_body_request())
 
 
 def _process_body_request():
@@ -68,13 +69,13 @@ def parse_args():
 
     args = parser.parse_args()
 
-    return (S_OK, args)
+    return None, args
 
 
 def _main():
     global app
 
-    (error_code, args) = parse_args()
+    error, args = parse_args()
 
     cfg.init({"port": args.port, "ini_filename": args.ini, 'log_filename': args.log_filename})
 

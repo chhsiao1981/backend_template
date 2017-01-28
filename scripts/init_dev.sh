@@ -32,7 +32,7 @@ python setup.py develop
 rm setup.py
 rm -rf .git
 
-pcreate -s init_starter .
+pcreate -s init_dev .
 rm -rf app.egg-info
 
 python setup.py develop
