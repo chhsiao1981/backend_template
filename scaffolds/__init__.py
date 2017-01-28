@@ -12,8 +12,10 @@ class MyTemplate(PyramidTemplate):
     def pre(self, command, output_dir, vars):
         the_args = command.args
 
-        logging.warning('command: %s output_dir: %s vars: %s args: %s', command, output_dir, vars, command.args)
-        module_name = the_args[1] if len(the_args) >= 2 else ''
+        module_name = getattr(command.args, 'output_directory', '')
+
+        logging.warning('command: %s output_dir: %s vars: %s args: %s module_name: %s', command, output_dir, vars, command.args, module_name)
+
         self._setup_module(vars, module_name)
 
         return PyramidTemplate.pre(self, command, output_dir, vars)
