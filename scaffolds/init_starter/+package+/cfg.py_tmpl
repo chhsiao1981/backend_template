@@ -129,15 +129,25 @@ def _post_init_config(params):
     config.update(params)
 
 
-def _init_mongo():
+def _init_mongo(db_name=None):
     '''
     initialize mongo
     '''
 
-    _init_mongo_map_core('mongo', config.get('mongo_server_hostname', 'localhost'), config.get('mongo_server', 'test'), _mongo_map, _ensure_index, _ensure_unique_index)
+    _init_mongo_map_core(
+        'mongo',
+        config.get('mongo_server_hostname', 'localhost'),
+        config.get('mongo_server', 'test'),
+        _mongo_map,
+        _ensure_index,
+        _ensure_unique_index,
+        db_name=db_name)
 
 
-def _init_mongo_map_core(mongo_prefix, mongo_server_hostname, mongo_server, mongo_map, ensure_index_map, ensure_unique_index_map=None):
+def _init_mongo_map_core(mongo_prefix, mongo_server_hostname, mongo_server, mongo_map, ensure_index_map, ensure_unique_index_map=None, db_name=None):
+    if db_name is not None and db_name not in mongo_map:
+        return
+
     if not ensure_unique_index_map:
         ensure_unique_index_map = {}
 
