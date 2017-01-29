@@ -9,7 +9,7 @@ project name/directory is recommended to fit python style (using underscore as p
 * good: backend_temp
 * bad: backend-temp, backendTemp, BackendTemp
 
-git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; /scripts_init_starter.sh;
+git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; /scripts/init_starter.sh;
 
 * start: ./scripts/init_starter.sh
 * start with django: ./scripts/init_django.sh
