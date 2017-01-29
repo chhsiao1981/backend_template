@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import ConfigParser
+from configparser import SafeConfigParser
 import logging
 import logging.config
 import random
@@ -83,7 +83,7 @@ def init_ini_file(ini_filename, section):
     get ini conf from section
     return: config: {key: val} val: json_loaded
     '''
-    config_parser = ConfigParser.SafeConfigParser()
+    config_parser = SafeConfigParser()
     config_parser.read(ini_filename)
     options = config_parser.options(section)
     config = {option: _init_ini_file_parse_option(option, section, config_parser) for option in options}

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pcreate -s dev_starter .
+pcreate -s init_starter .
