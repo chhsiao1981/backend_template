@@ -28,7 +28,7 @@ echo "current_dir: "
 pwd
 
 # requires
-pip install pyramid
+pip install pyramid==1.7
 pip install sniffer
 
 # post setup
