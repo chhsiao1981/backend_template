@@ -12,7 +12,7 @@ class MyTemplate(PyramidTemplate):
     def pre(self, command, output_dir, vars):
         the_args = command.args
 
-        module_name = getattr(command.args, 'output_directory', '')
+        module_name = '' if not isinstance(the_args, list) or len(the_args) < 2 else the_args[1]
 
         logging.warning('command: %s output_dir: %s vars: %s args: %s module_name: %s', command, output_dir, vars, command.args, module_name)
 
