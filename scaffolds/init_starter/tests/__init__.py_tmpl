@@ -5,11 +5,14 @@ from {{package}}.constants import *
 import unittest
 import logging
 
+from {{package}} import cfg
+
 class Object(object):
     pass
 
 
 def setup():
+    cfg.logger = logging
     pass
 
 
