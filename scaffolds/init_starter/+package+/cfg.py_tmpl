@@ -16,7 +16,7 @@ logger = None
 config = {}
 
 _mongo_map = {
-    'lock': 'lock',
+    'test': 'test',
     '{{package}}': '{{package}}'
 }
 
@@ -24,7 +24,6 @@ _ensure_index = {
 }
 
 _ensure_unique_index = {
-    'lock': [('key', pymongo.ASCENDING)],
 }
 
 IS_INIT = False
