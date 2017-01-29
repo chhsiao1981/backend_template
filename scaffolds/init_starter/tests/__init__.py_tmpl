@@ -13,8 +13,20 @@ class Object(object):
 
 def setup():
     cfg.logger = logging
+    cfg.config = {
+        'mongo_server_hostname': 'localhost',
+        'mongo_server': 'test',
+    }
+
+    cfg._init_mongo()
+    logging.warning('cfg.config: %s', cfg.config)
+
     pass
 
 
 def teardown():
     pass
+
+
+def mock_func(*args, **kwargs):
+    logging.debug('mock_func: args: %s kwargs: %s', args, kwargs)
