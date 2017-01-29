@@ -160,7 +160,7 @@ def _init_mongo_map_core(mongo_prefix, mongo_server_hostname, mongo_server, mong
 
     try:
         if mongo_server_idx not in config:
-            config[mongo_server_idx] = MongoClient(config.get(mongo_server_url), use_greenlets=True)[mongo_server]
+            config[mongo_server_idx] = MongoClient(config.get(mongo_server_url))[mongo_server]
 
         for (key, val) in mongo_map.items():
             if key in config:
