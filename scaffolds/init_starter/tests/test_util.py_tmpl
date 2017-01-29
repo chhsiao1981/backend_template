@@ -19,6 +19,6 @@ class TestUtil(unittest.TestCase):
         util.db_force_remove('test', {})
         util.db_insert('test', [{"test1": 1, 'test2': 2}])
 
-        db_result = util.db_find_one('test', {"test1": 1})
+        error, db_result = util.db_find_one('test', {"test1": 1})
 
         assert db_result.get('test2', 0) == 2
