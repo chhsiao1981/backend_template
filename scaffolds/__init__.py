@@ -66,6 +66,11 @@ class InitStarterProjectTemplate(MyTemplate):
     summary = 'including main/cfg/util/constants'
 
 
+class InitStarter3ProjectTemplate(MyTemplate):
+    _template_dir = 'init_starter3'
+    summary = 'including main/cfg/util/constants (python3)'
+
+
 class InitDevProjectTemplate(MyTemplate):
     _template_dir = 'init_dev'
     summary = 'starting project'
