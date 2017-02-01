@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from configparser import SafeConfigParser
+from ConfigParser import SafeConfigParser
 import logging
 import logging.config
 import random
