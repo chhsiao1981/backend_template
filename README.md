@@ -12,14 +12,8 @@ project name/directory is recommended to fit python style (using underscore as p
 git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; ./scripts/init_starter.sh;
 
 * start: ./scripts/init_starter.sh
-* start with django: ./scripts/init_django.sh
 * create a module: ./scripts/dev_module.sh
 * create a class: ./scripts/dev_class.sh
-
-
-Django
-------
-git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; ./scripts/init_starter.sh; ./scripts/init_django.sh
 
 
 Introduction

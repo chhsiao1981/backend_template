@@ -12,7 +12,7 @@ echo "virtualenv_dir: ${virtualenv_dir}"
 if [ ! -d ${virtualenv_dir} ]
 then
   echo "no ${virtualenv_dir}. will create one"
-  the_python=`which python2`
+  the_python=`which python3`
   if [ "${the_python}" == "" ]
   then
     the_python=`which python`

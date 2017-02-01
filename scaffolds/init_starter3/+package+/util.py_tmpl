@@ -381,7 +381,7 @@ def db_aggregate_parse_results(db_results):
 
 
 def db_aggregate_parse_result(db_result):
-    result = {key: val for (key, val) in db_result.iteritems() if key != '_id'}
+    result = {key: val for (key, val) in db_result.items() if key != '_id'}
     if db_result['_id']:
         result.update(db_result['_id'])
 
@@ -565,7 +565,7 @@ def http_multipost(the_url_data, timeout=HTTP_TIMEOUT, cookies=None, headers=Non
     '''
     error = None
 
-    the_url_data_list = the_url_data.iteritems()
+    the_url_data_list = the_url_data.items()
 
     error, result_list = http_multipost_list(the_url_data_list, timeout=timeout, cookies=cookies, headers=headers)
     if error:
@@ -657,7 +657,7 @@ def send_requests(all_machines, path, params, method, timeout=HTTP_TIMEOUT, cook
 
     # data: {the_url: (each_error, content)}
 
-    results = {machine: _parse_send_requests_data(data.get(the_url, None)) for machine, the_url in the_urls_dict.iteritems()}
+    results = {machine: _parse_send_requests_data(data.get(the_url, None)) for machine, the_url in the_urls_dict.items()}
 
     return None, results
 
@@ -667,7 +667,7 @@ def send_requests_with_different_params(the_url_data, timeout=HTTP_TIMEOUT, cook
     if error:
         return error, {}
 
-    return None, {machine: _parse_send_requests_data(data) for machine, data in result.iteritems()}
+    return None, {machine: _parse_send_requests_data(data) for machine, data in result.items()}
 
 
 def _send_requests_list(the_urls_list, params, method, timeout, cookies, headers):

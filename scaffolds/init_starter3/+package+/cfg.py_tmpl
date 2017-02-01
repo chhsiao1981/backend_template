@@ -104,7 +104,7 @@ def _post_json_config(config):
     '''
     try to do json load on value
     '''
-    for k, v in config.iteritems():
+    for k, v in config.items():
         if v.__class__.__name__ != 'str':
             continue
 
@@ -121,7 +121,7 @@ def _post_init_config(params):
     '''
     logger.warning('params: %s', params)
 
-    for (k, v) in params.iteritems():
+    for (k, v) in params.items():
         if k in config:
             logger.warning('params will be overwrite: key: %s origin: %s new: %s', k, config[k], v)
 
@@ -161,7 +161,7 @@ def _init_mongo_map_core(mongo_prefix, mongo_server_hostname, mongo_server, mong
         if mongo_server_idx not in config:
             config[mongo_server_idx] = MongoClient(config.get(mongo_server_url))[mongo_server]
 
-        for (key, val) in mongo_map.iteritems():
+        for (key, val) in mongo_map.items():
             if key in config:
                 logger.warning('key already in config: key: %s config: %s', key, config[key])
                 continue
@@ -171,17 +171,17 @@ def _init_mongo_map_core(mongo_prefix, mongo_server_hostname, mongo_server, mong
     except Exception as e:
         logger.error('unable to init mongo: mongo_prefix: %s mongo_server_hostname: %s mongo_server: %s e: %s', mongo_prefix, mongo_server_hostname, mongo_server, e)
 
-        for key, val in mongo_map.iteritems():
+        for key, val in mongo_map.items():
             config[key] = None
 
-    for key, val in ensure_index_map.iteritems():
+    for key, val in ensure_index_map.items():
         logger.warning('to ensure_index: key: %s', key)
         try:
             config[key].ensure_index(val, background=True)
         except Exception as e:
             logging.error('unable to ensure_index: key: %s e: %s', key, e)
 
-    for key, val in ensure_unique_index_map.iteritems():
+    for key, val in ensure_unique_index_map.items():
         try:
             config[key].ensure_index(val, background=True, unique=True)
         except Exception as e:

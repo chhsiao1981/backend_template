@@ -5,10 +5,10 @@ from {{package}}.constants import *
 import unittest
 import logging
 
-from {{package}} import wsgi
+from {{package}} import util
 
 
-class TestWsgi(unittest.TestCase):
+class TestCfg(unittest.TestCase):
     def setUp(self):
         pass
 

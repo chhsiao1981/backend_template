@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from {{package}}.constants import *
-from {{package}}.django_constants import *
 
 import unittest
 import logging
 
-from {{package}} import main_django
+from {{package}} import main
 
 
-class TestMainDjango(unittest.TestCase):
+class TestMain(unittest.TestCase):
     def setUp(self):
         pass
 
