@@ -36,7 +36,7 @@ setup(name='{{project}}',
       entry_points="""\
       [pyramid.scaffold]
       module = scaffolds:ModuleProjectTemplate
-      init_starter = scaffolds:InitStarter3ProjectTemplate
+      init_starter3 = scaffolds:InitStarter3ProjectTemplate
       pkg = scaffolds:PkgProjectTemplate
       """,
       )
