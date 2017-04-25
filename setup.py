@@ -36,5 +36,6 @@ setup(name='app',
       entry_points="""\
       [pyramid.scaffold]
       init_dev = scaffolds:InitDevProjectTemplate
+      init_dev3 = scaffolds:InitDev3ProjectTemplate
       """,
       )

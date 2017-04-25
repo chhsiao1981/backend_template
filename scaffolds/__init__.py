@@ -76,6 +76,11 @@ class InitDevProjectTemplate(MyTemplate):
     summary = 'starting project'
 
 
+class InitDev3ProjectTemplate(MyTemplate):
+    _template_dir = 'init_dev3'
+    summary = 'starting project'
+
+
 class PkgProjectTemplate(MyTemplate):
     _template_dir = 'pkg'
     summary = 'pkg'
