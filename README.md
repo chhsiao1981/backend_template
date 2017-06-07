@@ -10,6 +10,7 @@ project name/directory is recommended to fit python style (using underscore as p
 * bad: backend-temp, backendTemp, BackendTemp
 
 git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; ./scripts/init_starter.sh;
+
 git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev3.sh; . __/bin/activate; ./scripts/init_starter3.sh;
 
 * start: ./scripts/init_starter.sh
